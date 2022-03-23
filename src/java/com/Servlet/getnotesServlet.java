@@ -21,20 +21,7 @@ public class getnotesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        userDetails us = (userDetails) session.getAttribute("user_details");
+        response.sendRedirect("showNotes.jsp");
 
-        if (us != null) {
-            Connection con = DbConnection.getConn();
-            notesDAO ndao = new notesDAO(con);
-
-            List<userNotes> notes = ndao.getNotes(us.getId());
-
-            session.setAttribute("notes", notes);
-            response.sendRedirect("showNotes.jsp");
-
-        }else{
-            session.setAttribute("msg", "login");
-            response.sendRedirect("login.jsp");
-        }
     }
 }

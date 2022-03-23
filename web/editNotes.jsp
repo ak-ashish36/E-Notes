@@ -1,15 +1,19 @@
 <%@page import="com.database.DbConnection"%>
 <%@page import="com.database.notesDAO"%>
 <%@page import="com.User.userNotes"%>
-<%@page import="com.User.userDetails"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-//Login Check
-    userDetails us = (userDetails) session.getAttribute("user_details");
-    if (us == null) {
+<%//Login Check
+    Cookie ck[] = request.getCookies();
+    String userId_S = null;
+    for (Cookie c : ck) {
+        if (c.getName().equals("userID")) {
+            userId_S = c.getValue();
+        }
+    }
+    if (userId_S == null) {
         session.setAttribute("msg", "login");
         response.sendRedirect("login.jsp");
-    } else {
+    } else {//Getting User Specific Notes
         Integer noteId = Integer.parseInt(request.getParameter("note_id"));
         notesDAO ndao = new notesDAO(DbConnection.getConn());
         userNotes currnotes = ndao.get_Notes_byId(noteId);
