@@ -10,11 +10,11 @@
         <div class="container-fluid back-img">
             <div class="text-center">
                 <h1 class="text-white"><i class="fa fa-book" aria-hidden="true"></i> E-Notes Save your Notes</h1>
-                <% if (user_IdS == null) { %>
+                <% if (user == null) {%>
                 <a href="login.jsp" class="btn btn-light"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
-                <% }else{ %>
+                <%} else {%>
                 <a href="logout" class="btn btn-light"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
-                <% } %>
+                <% }%>
                 <a href="register.jsp" class="btn btn-light"><i class="fa fa-user-plus" aria-hidden="true"></i> Register</a>
             </div>
         </div>

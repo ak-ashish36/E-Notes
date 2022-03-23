@@ -1,28 +1,11 @@
-<%@page import="com.database.notesDAO"%>
-<%@page import="com.database.DbConnection"%>
-<%@page import="com.database.userDAO"%>
-<%@page import="com.User.userDetails"%>
 <%@page import="com.User.userNotes"%>
 <%@page import="java.util.List"%>
-<%  //Login Check
-    Cookie ck[] = request.getCookies();
-    String userId_S = null;
-    for (Cookie c : ck) {
-        if (c.getName().equals("userID")) {
-            userId_S = c.getValue();
-        }
-    }
-    if (userId_S == null) {
+<%
+    userDetails us = (userDetails) session.getAttribute("user_details");
+    if (us == null) {
         session.setAttribute("msg", "login");
         response.sendRedirect("login.jsp");
     } else {
-//         Fetching user details
-        userDAO udao = new userDAO(DbConnection.getConn());
-        int userId = Integer.parseInt(userId_S);
-        userDetails user = udao.getUser_fromID(userId);
-//        Fetching notes of the user
-        notesDAO ndao = new notesDAO(DbConnection.getConn());
-        List<userNotes> notes = ndao.getNotes(user.getId());
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -40,7 +23,7 @@
         <div class="alert alert-success" role="alert">
             Note Updated Successfully! 
         </div>
-        <% } else if (updateMsg == "note_deleted") {%>
+        <% }else if(updateMsg == "note_deleted"){%>
         <div class="alert alert-success" role="alert">
             Note Deleted Successfully! 
         </div>
@@ -49,7 +32,7 @@
             <h2 class="text-center">All Notes</h2>
             <div class="row">
                 <div class="col-md-12">
-                    <%
+                    <%                        List<userNotes> notes = (List<userNotes>) session.getAttribute("notes");
                         for (userNotes no : notes) {
                     %>
                     <div class="card mt-3">
@@ -61,7 +44,7 @@
                             <p><%= no.getContents()%></p>
 
                             <p>
-                                <b class="text-success">Pubblished By: </b><b class="text-primary"><%= user.getName()%></b>
+                                <b class="text-success">Pubblished By: </b><b class="text-primary"><%= us.getName()%></b>
                             </p>
                             <p>
                                 <b class="text-success">Date: </b><b class="text-primary"><%= no.getDate()%></b>

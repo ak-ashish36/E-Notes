@@ -1,17 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%// Login Check
-    Cookie ck[] = request.getCookies();
-    String userId_S = null;
-    for (Cookie c : ck) {
-        if (c.getName().equals("userID")) {
-             userId_S = c.getValue();
-        }
-    }
-    if (userId_S == null) {
+<%
+// Login Check
+    userDetails us = (userDetails) session.getAttribute("user_details");
+    if (us == null) {
         session.setAttribute("msg", "login");
         response.sendRedirect("login.jsp");
     } else {
-        int userId = Integer.parseInt(userId_S);
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +21,7 @@
 
                 <form action="addnotesServlet" method="post">
                     <div class="mb-3">
-                        <input type="hidden" name="userid" value="<%= userId%>">
+                        <input type="hidden" name="userid" value="<%= us.getId() %>">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput" class="form-label">Enter Title</label>

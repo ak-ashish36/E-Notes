@@ -1,5 +1,3 @@
-<%@page import="com.database.userDAO"%>
-<%@page import="com.database.DbConnection"%>
 <%@page import="com.User.userDetails"%>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,58 +27,12 @@
                     </li>
                 </ul>
 
-                <%//Login Check
-                    Cookie cks[] = request.getCookies();
-                    String user_IdS = null;
-                    for (Cookie c : cks) {
-                        if (c.getName().equals("userID")) {
-                            user_IdS = c.getValue();
-                        }
-                    }
-                    if (user_IdS != null) {
-                        //Gettting User details of logged_user
-                        userDAO uda = new userDAO(DbConnection.getConn());
-                        int user_Id = Integer.parseInt(user_IdS);
-                        userDetails User = uda.getUser_fromID(user_Id);
+                <%
+                    userDetails user = (userDetails) session.getAttribute("user_details");
+                    if (user != null) {
                 %>
-                <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-user" aria-hidden="true"></i> <%=User.getName()%></a>
+                <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-user" aria-hidden="true"></i> <%=user.getName()%></a>
                 <a href="logout" class="btn btn-outline-success"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container text-center">
-                                    <i class="fa fa-user fa-3x"></i>
-                                    <h5><%=User.getName()%></h5>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <th>User Id</th>
-                                                <td><%=User.getId()%></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Full Name</th>
-                                                <td><%=User.getName()%></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Email-Id</th>
-                                                <td><%=User.getEmail()%></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--Modal End-->
                 <%
                 } else {
                 %>             
@@ -92,6 +44,46 @@
             </div>  
         </div>
     </nav>
+    <%
+        if (user != null) {
+    %>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Your Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <i class="fa fa-user fa-3x"></i>
+                        <h5><%=user.getName()%></h5>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>User Id</th>
+                                    <td><%=user.getId()%></td>
+                                </tr>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <td><%=user.getName()%></td>
+                                </tr>
+                                <tr>
+                                    <th>Email-Id</th>
+                                    <td><%=user.getEmail()%></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+        }
+    %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

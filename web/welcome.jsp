@@ -1,14 +1,9 @@
 <%@page import="com.User.userDetails"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% // Login Check
-    Cookie ck[] = request.getCookies();
-    String userId_S = null;
-    for (Cookie c : ck) {
-        if (c.getName().equals("userID")) {
-            userId_S = c.getValue();
-        }
-    }
-    if (userId_S== null) {
+    userDetails us = (userDetails) session.getAttribute("user_details");
+
+    if (us == null) {
         session.setAttribute("msg", "login");
         response.sendRedirect("login.jsp");
     }

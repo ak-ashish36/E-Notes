@@ -16,7 +16,7 @@ public class userDAO {
     public boolean adduser(userDetails us) {
         boolean f = false;
         try {
-            String query = "INSERT INTO users VALUES(NULL,?,?,?)";       //id,fullname,email,password
+            String query = "INSERT INTO public.users(fullname, email, password) VALUES(?,?,?)";       //id,fullname,email,password
 
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, us.getName());
@@ -35,7 +35,7 @@ public class userDAO {
     public userDetails getUser(userDetails us) {
         userDetails user = null;
         try {
-            String query = "SELECT * FROM users WHERE email=? AND password =?";
+            String query = "SELECT * FROM public.users WHERE email=? AND password =?";
 
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, us.getEmail());
@@ -57,7 +57,7 @@ public class userDAO {
     public userDetails getUser_fromID(int userId) {
         userDetails user = null;
         try {
-            String query = "SELECT * FROM users WHERE id=?";
+            String query = "SELECT * FROM public.users WHERE id=?";
 
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, userId);
