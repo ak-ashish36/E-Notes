@@ -9,12 +9,24 @@ public class DbConnection {
     private static Connection con;
 
     public static Connection getConn() {
-        String url = "jdbc:postgresql://ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/daqilo15ghcgk";
-        String username = "zpjsgchzfaaypq";
-        String pass = "9f6eb3ea7a36b1c24a2584251022fa3537cbb23922ae29a40f687b81abe3bbad";
+
+        String url = System.getenv("url");
+        String username = System.getenv("user");
+        String pass = System.getenv("pass");
+
+        if (url == null) {
+            url = "jdbc:mysql://127.0.0.1:3306/enotes";
+        }
+        if (username == null) {
+            username = "root";
+        }
+        if (pass == null) {
+            pass = "";
+        }
+
         try {
             //Register Driver
-            Class.forName("org.postgresql.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
             //Get Connection
             con = DriverManager.getConnection(url, username, pass);

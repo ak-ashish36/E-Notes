@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 public class notesDAO {
@@ -18,7 +19,7 @@ public class notesDAO {
     public boolean addnotes(userNotes un) {
         boolean f = false;
         try {
-            String query = "INSERT INTO public.notes (title,contents,uid) VALUES(?,?,?)";       //id,title,contents,date,uid
+            String query = "INSERT INTO notes (title,contents,uid) VALUES(?,?,?)";       //id,title,contents,date,uid
 
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, un.getTitle());
@@ -38,7 +39,7 @@ public class notesDAO {
         List<userNotes> list = new ArrayList<userNotes>();
         userNotes notes = null;
         try {
-            String query = "SELECT * FROM public.notes WHERE uid = ? ORDER BY id DESC";
+            String query = "SELECT * FROM notes WHERE uid = ? ORDER BY id DESC";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -61,7 +62,7 @@ public class notesDAO {
     public userNotes get_Notes_byId(int noteId) {
         userNotes notes = null;
         try {
-            String query = "SELECT * FROM public.notes WHERE id = ?";
+            String query = "SELECT * FROM notes WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, noteId);
             ResultSet rs = ps.executeQuery();
@@ -82,7 +83,7 @@ public class notesDAO {
     public boolean editnotes(userNotes un) {
         boolean f = false;
         try {
-            String query = "UPDATE public.notes SET title=?,contents=?,date=? WHERE id=?";
+            String query = "UPDATE notes SET title=?,contents=?,date=? WHERE id=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, un.getTitle());
             ps.setString(2, un.getContents());
@@ -101,7 +102,7 @@ public class notesDAO {
     public boolean deletenotes(int id) {
         boolean f = false;
         try {
-            String query = "DELETE FROM public.notes WHERE id=?";
+            String query = "DELETE FROM notes WHERE id=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1,id);
             int i = ps.executeUpdate();
